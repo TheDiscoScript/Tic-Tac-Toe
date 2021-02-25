@@ -30,7 +30,11 @@ const gameBoard = (() =>{
         };
 
     function updateBoard(){
-        this.textContent += "x"
+        if(this.textContent == "X" || this.textContent == "O"){
+            return
+        } else{
+            this.textContent += displayController.whichSign()
+        }
    }
 
     //TODO - clear board
@@ -54,13 +58,19 @@ const displayController = (() =>{
     //sign
     let roundC = 1
     const whichSign = () => {
-        if(roundC % 2 === 1){
-           return playerX.showSign()
-        }else{return playerO.showSign()}
+        if (roundC === 10){
+            return
+        }else if(roundC % 2 === 1){
+            roundC++
+            return playerX.showSign()
+        }else if(roundC % 2 ===0){
+            roundC++
+            return playerO.showSign()
     }
-    
+    }
     //input board
 
     //check for win --> win conditions
+    return{whichSign}
 })();
 
