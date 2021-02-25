@@ -6,14 +6,19 @@
 //module
 const gameBoard = (() =>{
     //this stores either X or Y
-    let boardPlayerValue = []
+    const boardPlayerValue = []
     for( let i = 0; i < 9; i++){
         boardPlayerValue.push("")
     }
+
     //this function stores sign of player in boardPlayerValue
     const inBoard = (position, sign) => {
-        if (position > board.length) return
+        if (position > boardPlayerValue.length) return
         boardPlayerValue[position] = sign
+    } 
+    const outBoard = (position) => {
+        if(position > boardPlayerValue.length) return
+        return boardPlayerValue[position]
     }
 
 
@@ -29,9 +34,15 @@ const gameBoard = (() =>{
         startB.disabled = true
       let wholeBoard = buildingBoard.querySelectorAll("div")
       wholeBoard.forEach(block => block.addEventListener("click", updateBoard))
-        };
+      wholeBoard.forEach(block => block.addEventListener("click", storePosition))
+    };
+    function storePosition () {
+        inBoard(this.dataset.number, this.textContent)
+        console.log(boardPlayerValue)
+     
+    }
     
-  /*  const clearB = document.querySelector("#clearGrid")
+  /* const clearB = document.querySelector("#clearGrid")
     clearB.addEventListener("click", clearBoard)
       function clearBoard(){
         const buildingBoard = document.querySelector("#gridContainer")
@@ -51,8 +62,11 @@ const gameBoard = (() =>{
         }
    }
 
+    function showBoardStatus(){
+         console.log(boardPlayerValue)
+    }
     //TODO - clear board
-    return {createBoard, /*clearBoard*/ inBoard,}
+    return {createBoard, /*clearBoard*/ inBoard, outBoard, showBoardStatus,}
 })();
 
 //factory
@@ -69,6 +83,8 @@ const displayController = (() =>{
     //create players
     const playerX = gamePlayer("X")
     const playerO = gamePlayer("O")
+
+
     //sign
     let roundC = 1
     const whichSign = () => {
@@ -82,12 +98,18 @@ const displayController = (() =>{
             return playerO.showSign()
         }
     }
-    const resetRoundC = () =>{
+
+  /*  const resetRoundC = () =>{
         let roundC = 1;
         return roundC
-    }
+    }*/
     //check for win --> win conditions
     const conditionsForWin = [
+
+        // 0 1 2 
+        // 3 4 5
+        // 6 7 8
+
         [0, 1, 2],
         [0, 4, 8],
         [0, 3, 6],
@@ -100,6 +122,6 @@ const displayController = (() =>{
     const checkForWin = () =>{
 
     }
-    return{whichSign, resetRoundC}
+    return{whichSign,  /*resetRoundC*/}
 })();
 
